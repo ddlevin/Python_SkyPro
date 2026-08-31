@@ -1,15 +1,15 @@
-def num():
-    print("88005553535")
-    print("88005553535")
-    print("88005553535")
-    print("88005553535")
-    print("88005553535")
-    print("88005553535")
-    print("88005553535")
-    print("88005553535")
-    print("88005553535")
-    print("88005553535")
-    print("88005553535")
+def print_num(num):
+    print(num)
 
 
-num()
+print_num(8)
+print_num(8)
+print_num(0)
+print_num(0)
+print_num(5)
+print_num(5)
+print_num(5)
+print_num(3)
+print_num(5)
+print_num(3)
+print_num(5)
