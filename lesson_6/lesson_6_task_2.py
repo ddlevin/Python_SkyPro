@@ -1,8 +1,11 @@
 from selenium import webdriver
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 
 def test_session_storage_auth():
     driver = webdriver.Chrome()
+    wait = WebDriverWait(driver, 10)
     driver.get("https://gitflic.ru/")
 
     user1_cookie = {
@@ -15,6 +18,8 @@ def test_session_storage_auth():
     driver.refresh()
 
     driver.get("https://gitflic.ru/user/levindm")
+
+    wait.until(EC.url_contains("/user/levindm"))
 
     url_user1 = driver.current_url
 
@@ -30,6 +35,8 @@ def test_session_storage_auth():
     driver.refresh()
 
     driver.get("https://gitflic.ru/user/ddlevin")
+
+    wait.until(EC.url_contains("/user/ddlevin"))
 
     url_user2 = driver.current_url
 
