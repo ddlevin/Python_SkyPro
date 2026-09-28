@@ -1,48 +1,48 @@
-from sqlalchemy import text
+from db import get_connection_string
+from student_table import StudentTable
 
-from db import db
-
-
-def test_insert():
-    connection = db.connect()
-    transaction = connection.begin()
-
-    sql = text("""
-        INSERT INTO student (user_id, level, education_form, subject_id)
-        VALUES (:new_user_id, :new_level, :new_form, :new_subject_id)
-    """)
-    connection.execute(sql, {
-        "new_user_id": 999999,
-        "new_level": "Beginner",
-        "new_form": "personal",
-        "new_subject_id": 1,
-    })
-
-    transaction.commit()
-    connection.close()
+db = StudentTable(get_connection_string())
 
 
-def test_update():
-    connection = db.connect()
-    transaction = connection.begin()
-
-    sql = text("""
-        UPDATE student
-        SET level = :new_level
-        WHERE user_id = :uid
-    """)
-    connection.execute(sql, {"new_level": "Upper-Intermediate", "uid": 999999})
-
-    transaction.commit()
-    connection.close()
+CREATE_ID = 990000001
+UPDATE_ID = 990000002
+DELETE_ID = 990000003
 
 
-def test_delete():
-    connection = db.connect()
-    transaction = connection.begin()
+def test_add_student():
+    db.add_student(CREATE_ID, "Beginner", "personal", 1)
 
-    sql = text("DELETE FROM student WHERE user_id = :uid")
-    connection.execute(sql, {"uid": 999999})
+    db_student = db.get_student_by_id(CREATE_ID)
+    assert db_student is not None
+    assert db_student["level"] == "Beginner"
+    assert db_student["education_form"] == "personal"
+    assert db_student["subject_id"] == 1
 
-    transaction.commit()
-    connection.close()
+    db.delete_student(CREATE_ID)
+
+
+def test_update_student():
+    db.add_student(UPDATE_ID, "Beginner", "personal", 1)
+
+    db.update_student(
+        UPDATE_ID,
+        level="Upper-Intermediate",
+        education_form="group",
+        subject_id=2,
+    )
+
+    db_student = db.get_student_by_id(UPDATE_ID)
+    assert db_student["level"] == "Upper-Intermediate"
+    assert db_student["education_form"] == "group"
+    assert db_student["subject_id"] == 2
+
+    db.delete_student(UPDATE_ID)
+
+
+def test_delete_student():
+    db.add_student(DELETE_ID, "Elementary", "personal", 1)
+
+    db.delete_student(DELETE_ID)
+
+    db_student = db.get_student_by_id(DELETE_ID)
+    assert db_student is None
