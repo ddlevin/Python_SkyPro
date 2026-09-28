@@ -1,0 +1,14 @@
+{
+    "python.linting.flake8Enabled": true,
+    "python.linting.flake8Args": [
+        "--max-line-length=120"
+    ],
+    "python.analysis.diagnosticSeverity": {
+        "reportMissingImports": "warning"
+    },
+    "python.analysis.extraPaths": [
+        "C:\\Users\\howaq\\AppData\\Roaming\\Python\\Python314\\site-packages"
+    ],
+    "python.defaultInterpreterPath": "C:\\Program Files\\Python314\\python.exe",
+    "python.terminal.activateEnvironment": true
+}
